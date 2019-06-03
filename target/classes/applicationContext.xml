@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <!--配置bean-->
+    <bean id="helloWorld" class="com.nxist.beans.HelloWorld">
+        <property name="name5" value="餐厅"></property>
+    </bean>
+    <!--通过构造方法来配置bean的属性，可以指定参数的位置-->
+    <bean id="car" class="com.nxist.beans.Car">
+        <constructor-arg value="宝马" index="0"></constructor-arg>
+        <constructor-arg value="大众" index="1"></constructor-arg>
+        <constructor-arg value="200000" index="2" type="double"></constructor-arg>
+    </bean>
+
+    <!--可以通过指定参数的类型调用不同的构造方法-->
+    <bean id="car2" class="com.nxist.beans.Car">
+        <constructor-arg value="奔驰" type="java.lang.String"></constructor-arg>
+        <!--如果字面值包含特殊字符可以使用<![CDATA[]]>包裹起来-->
+        <!--属性值可以通过value子节点进行配置-->
+        <constructor-arg type="java.lang.String">
+            <value><![CDATA[<梅赛德斯奔驰纯金版>]]></value>
+        </constructor-arg>
+        <constructor-arg type="int">
+            <value>260</value>
+        </constructor-arg>
+    </bean>
+
+    <!--配置bean之间的引用关系-->
+    <bean id="person" class="com.nxist.beans.Person">
+        <property name="name" value="泰妍"></property>
+        <property name="age" value="30"></property>
+        <!--可以通过property的ref属性建立bean之间的引用关系-->
+        <!--<property name="car" ref="car2"></property>-->
+        <!--<property name="car">-->
+            <!--<ref bean="car2"></ref>-->
+        <!--</property>-->
+        <property name="car">
+            <!--内部bean，不能被外部使用，只能在内部使用-->
+            <bean id="car3" class="com.nxist.beans.Car">
+                <constructor-arg value="Lincoln"></constructor-arg>
+                <constructor-arg value="GM"></constructor-arg>
+                <constructor-arg value="2000000" type="double"></constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+    <!--配置级联属性-->
+    <bean id="person2" class="com.nxist.beans.Person">
+        <constructor-arg value="太妍"></constructor-arg>
+        <constructor-arg value="30"></constructor-arg>
+        <!--<constructor-arg name="car" ref="car2"></constructor-arg>-->
+        <!--测试赋值null-->
+        <!--<constructor-arg><null></null></constructor-arg>-->
+        <constructor-arg ref="car"></constructor-arg>
+        <!--为级联属性赋值。注意：属性需要先初始化后才能级联赋值，否则会有异常，也就是必须写在上面这条语句的下面。-->
+        <property name="car.maxSpeed" value="250"></property>
+    </bean>
+
+    <!--配置List属性值-->
+    <bean id="person3" class="com.nxist.beans.collections.Person">
+        <property name="age" value="29"></property>
+        <property name="name" value="Taeyeon"></property>
+        <property name="cars">
+            <!--使用List节点为List类型的属性赋值-->
+            <list>
+                <ref bean="car"></ref>
+                <ref bean="car2"></ref>
+                <!--内部bean，不能被外部使用，只能在内部使用-->
+                <!--<ref bean="car3"></ref>-->
+                <bean id="car3" class="com.nxist.beans.Car">
+                    <constructor-arg value="Lincoln"></constructor-arg>
+                    <constructor-arg value="GM"></constructor-arg>
+                    <constructor-arg value="2000000" type="double"></constructor-arg>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--配置Map属性值-->
+    <bean id="newPerson" class="com.nxist.beans.collections.NewPerson">
+        <property name="name" value="大米"></property>
+        <property name="age" value="19"></property>
+        <property name="cars">
+            <!--使用map节点及map的子节点entry配置Map类型的成员变量-->
+            <map>
+                <entry key="AA" value-ref="car"></entry>
+                <entry key="BB" value-ref="car2"></entry>
+            </map>
+        </property>
+    </bean>
+
+    <!--配置Properties属性-->
+    <bean class="com.nxist.beans.collections.DataSource">
+        <property name="properties">
+            <!--使用props和子节点prop为Properties属性赋值-->
+            <props>
+                <prop key="user">root</prop>
+                <prop key="password">1234</prop>
+                <prop key="jdbcUrl">jdbc:mysql:localhost/test</prop>
+                <prop key="driverClass">com.mysql.jdbc.Driver</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--配置独立的集合bean，以便多个bean引用-->
+    <util:list id="listCar">
+        <ref bean="car"></ref>
+        <ref bean="car2"></ref>
+    </util:list>
+
+    <!--同过p命名空间配置bean的属性值，相对于传统的方式更加便捷-->
+    <bean id="person5" class="com.nxist.beans.collections.Person" p:age="16" p:name="小绵羊" p:cars-ref="listCar"></bean>
+</beans>

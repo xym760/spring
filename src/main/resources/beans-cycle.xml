@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--这个bean配置后，先调用bean的构造器方法，再调用setBrand()方法，再调用init2()方法，当IOC容器关闭时，最后调用destroy()方法-->
+    <bean id="car" class="com.nxist.beans.cycle.Car" init-method="init2" destroy-method="destroy">
+        <property name="brand" value="大黄蜂"></property>
+    </bean>
+    <!--配置bean后置处理器：不需要配置id，IOC容器自动识别-->
+    <!--实现接口：BeanPostProcessor，提供接口中
+    Object postProcessBeforeInitialization(Object var1, String var2) throws BeansException：init-method方法之前被调用
+    和
+    Object postProcessAfterInitialization(Object var1, String var2) throws BeansException：init-method方法之后被调用
+    方法的实现。
+    var1:bean实例本身
+    var2:IOC容器中bean的名字
+    返回值：是实际返回给用户的那个bean，可以在以上两个方法中被修改-->
+    <bean class="com.nxist.beans.cycle.MyBeanPostProcessor"></bean>
+</beans>

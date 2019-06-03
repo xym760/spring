@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--导入属性文件-->
+    <context:property-placeholder location="db.properties"></context:property-placeholder>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--使用属性文件中的属性配置-->
+        <property name="user" value="${user}"></property>
+        <property name="password" value="${password}"></property>
+        <property name="driverClass" value="${driverClass}"></property>
+        <property name="jdbcUrl" value="${jdbcUrl}"></property>
+        <!--<property name="user" value="root"></property>-->
+        <!--<property name="password" value="jk14101"></property>-->
+        <!--<property name="driverClass" value="com.mysql.jdbc.Driver"></property>-->
+        <!--<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/javadbtest?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC"></property>-->
+    </bean>
+
+</beans>
