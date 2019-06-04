@@ -1,5 +1,7 @@
 package com.nxist.beans.annotation.controller;
 
+import com.nxist.beans.annotation.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -9,7 +11,16 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class UserController {
-    public void execute(){
+
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public void execute() {
         System.out.println("UserController execute.....");
+        userService.add();
     }
 }

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
  * @Date: 2019/6/3 16:09
  * @Description:
  */
-@Component
+//@Component
 public class TestObject {
 }

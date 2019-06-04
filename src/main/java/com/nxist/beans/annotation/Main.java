@@ -17,13 +17,14 @@ public class Main {
 //        TestObject testObject= (TestObject) applicationContext.getBean("testObject");
 //        System.out.println(testObject);
 //
-//        UserController userController= (UserController) applicationContext.getBean("userController");
-//        System.out.println(userController);
+        UserController userController= (UserController) applicationContext.getBean("userController");
+        System.out.println(userController);
+        userController.execute();
 //
 //        UserService userService= (UserService) applicationContext.getBean("userService");
 //        System.out.println(userService);
 
-        UserRepository userRepository= (UserRepository) applicationContext.getBean("userRepository");
-        System.out.println(userRepository);
+//        UserRepository userRepository= (UserRepository) applicationContext.getBean("userRepository");
+//        System.out.println(userRepository);
     }
 }
