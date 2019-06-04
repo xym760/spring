@@ -1,0 +1,2 @@
+#忽略workspace.xml文件
+.idea/ workspace.xml
